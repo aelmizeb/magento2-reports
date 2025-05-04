@@ -1,0 +1,25 @@
+{
+  "name": "aelmizeb/magento2-reports",
+  "description": "A Magento 2 module that add reports in the admin panel.",
+  "type": "magento2-module",
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Abdellatif EL MIZEB",
+          "email": "aelmizeb@gmail.com"
+      }
+  ],
+  "version": "0.0.1",
+  "require": {
+      "php": "~8.1.0||~8.2.0||~8.3.0",
+      "magento/framework": "103.0.*",
+      "magento/module-catalog": "104.0.*",
+      "magento/module-analytics": "100.4.*"
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Originalapp\\Reports\\": ""
+    }
+  }
+}

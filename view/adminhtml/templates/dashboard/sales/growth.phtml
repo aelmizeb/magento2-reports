@@ -1,0 +1,41 @@
+<div id="salesGrowthChart" class="stat-container container-width-50"></div>
+
+<script type="text/javascript">
+    require(['jquery', 'echarts'], function ($, echarts) {
+        const chartDom = document.getElementById('salesGrowthChart');
+        const myChart = echarts.init(chartDom);
+
+        // Replace this with dynamic PHP data using json_encode
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const sales = [1200, 1800, 1600, 2100, 2500, 3000, 2700, 3200, 3500, 4000, 4200, 4800];
+
+        const option = {
+            title: {
+                text: 'Monthly Sales Growth',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: months
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Sales (€)'
+            },
+            series: [
+                {
+                    name: 'Sales',
+                    type: 'line',
+                    smooth: true,
+                    areaStyle: {},
+                    data: sales
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    });
+</script>

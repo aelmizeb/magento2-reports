@@ -1,0 +1,52 @@
+<div id="topProductsChart" class="stat-container container-width-50"></div>
+<?php
+$data = $block->getTopSellingProducts();
+$productNames = $data['names'];
+$productSales = $data['sales'];
+?>
+
+<script type="text/javascript">
+    require(['jquery', 'echarts'], function ($, echarts) {
+        const chartDom = document.getElementById('topProductsChart');
+        const myChart = echarts.init(chartDom);
+
+        const option = {
+            title: {
+                text: 'Top Selling Products',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: <?= json_encode($productNames) ?>,
+                axisLabel: {
+                    interval: 0,
+                    rotate: 30
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Units Sold'
+            },
+            series: [{
+                name: 'Sales',
+                type: 'bar',
+                data: <?= json_encode($productSales) ?>,
+                itemStyle: {
+                    color: '#5470C6'
+                },
+                label: {
+                    show: true,
+                    position: 'top'
+                }
+            }]
+        };
+
+        myChart.setOption(option);
+    });
+</script>

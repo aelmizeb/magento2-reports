@@ -1,0 +1,59 @@
+<div id="adminHeatmap" class="stat-container container-width-50"></div>
+
+<script type="text/javascript">
+    require(['jquery', 'echarts'], function ($, echarts) {
+        var chartDom = document.getElementById('adminHeatmap');
+        var myChart = echarts.init(chartDom);
+
+        // Sample sales data per country
+        var data = [
+            { name: 'United States', value: 120000 },
+            { name: 'Germany', value: 88000 },
+            { name: 'France', value: 50000 },
+            { name: 'Morocco', value: 32000 },
+            { name: 'China', value: 150000 },
+        ];
+
+        var option = {
+            title: {
+                text: 'Customers by Country',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}<br/>Customers: ${c}'
+            },
+            visualMap: {
+                min: 0,
+                max: 200000,
+                left: 'left',
+                top: 'bottom',
+                text: ['High', 'Low'],
+                calculable: true,
+                inRange: {
+                    color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4']
+                }
+            },
+            series: [
+                {
+                    name: 'Sales',
+                    type: 'map',
+                    map: 'world',
+                    roam: true,
+                    emphasis: {
+                        label: {
+                            show: true
+                        }
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        // Load the world map
+        $.get('<?php echo $block->getViewFileUrl('Originalapp_Reports::js/map/world.json'); ?>', function (geoJson) {
+            echarts.registerMap('world', geoJson);
+            myChart.setOption(option);
+        });
+    });
+</script>
