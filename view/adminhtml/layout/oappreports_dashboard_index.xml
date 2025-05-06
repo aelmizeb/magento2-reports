@@ -2,24 +2,24 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template"
-                name="originalapp.reports.heatmap"
+            <block class="Originalapp\Reports\Block\Adminhtml\Dashboard\Customers\Heatmap"
+                name="originalapp.reports.customers.heatmap"
                 template="Originalapp_Reports::dashboard/customers/heatmap.phtml"/>
 
-            <block class="Originalapp\Reports\Block\Adminhtml\Dashboard\TopProducts"
+            <block class="Originalapp\Reports\Block\Adminhtml\Dashboard\Sales\TopProducts"
                 name="originalapp.reports.topproducts"
                 template="Originalapp_Reports::dashboard/sales/top_products.phtml"/>
 
             <block class="Magento\Framework\View\Element\Template"
-                name="originalapp.reports.category"
+                name="originalapp.reports.sales.category"
                 template="Originalapp_Reports::dashboard/sales/category.phtml"/>
 
-            <block class="Magento\Framework\View\Element\Template"
-                name="originalapp.reports.country"
-                template="Originalapp_Reports::dashboard/sales/country.phtml"/>
+            <block class="Originalapp\Reports\Block\Adminhtml\Dashboard\Sales\Heatmap"
+                name="originalapp.reports.sales.heatmap"
+                template="Originalapp_Reports::dashboard/sales/heatmap.phtml"/>
 
             <block class="Magento\Framework\View\Element\Template"
-                name="originalapp.reports.growth"
+                name="originalapp.reports.sales.growth"
                 template="Originalapp_Reports::dashboard/sales/growth.phtml"/>
         </referenceContainer>
     </body>

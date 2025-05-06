@@ -1,24 +1,32 @@
 <?php
-namespace Originalapp\Reports\Block\Adminhtml\Dashboard;
+/**
+ * Copyright © 2025 Abdellatif EL MIZEB. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Framework\View\Element\Template;
+declare(strict_types=1);
+
+namespace Originalapp\Reports\Model;
+
 use Magento\Sales\Model\ResourceModel\Order\Item\CollectionFactory as OrderItemCollectionFactory;
 
-class TopProducts extends Template
+class ProductStats
 {
-    protected $orderItemCollectionFactory;
+    protected OrderItemCollectionFactory $orderItemCollectionFactory;
 
     public function __construct(
-        Context $context,
-        OrderItemCollectionFactory $orderItemCollectionFactory,
-        array $data = []
+        OrderItemCollectionFactory $orderItemCollectionFactory
     ) {
         $this->orderItemCollectionFactory = $orderItemCollectionFactory;
-        parent::__construct($context, $data);
     }
 
-    public function getTopSellingProducts($limit = 5)
+    /**
+     * Get top-selling products
+     *
+     * @param int $limit Number of products to return
+     * @return array ['names' => [...], 'sales' => [...]]
+     */
+    public function getTopSellingProducts(int $limit = 5): array
     {
         $collection = $this->orderItemCollectionFactory->create();
         $collection->getSelect()

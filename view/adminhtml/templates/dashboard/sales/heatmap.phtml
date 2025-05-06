@@ -6,14 +6,7 @@
         var chartDom = document.getElementById('countrymap');
         var myChart = echarts.init(chartDom);
 
-        // Sample sales data per country
-        var data = [
-            { name: 'United States', value: 120000 },
-            { name: 'Germany', value: 88000 },
-            { name: 'France', value: 50000 },
-            { name: 'Morocco', value: 32000 },
-            { name: 'China', value: 150000 },
-        ];
+        var data = <?= json_encode($block->getSalesByCountry()) ?>;
 
         var option = {
             title: {

@@ -1,0 +1,21 @@
+_entity_id,_email,_website,firstname,lastname,street,city,region,region_id,postcode,country_id,telephone,_address_default_billing_,_address_default_shipping_
+3,li.wei@example.cn,base,Wei,Li,"100 Beijing Rd",Beijing,Beijing Shi,685,100000,CN,010-88888888,1,1
+4,zhang.wei@example.cn,base,Wei,Zhang,"200 Nanjing Rd",Shanghai,Shanghai Shi,709,200000,CN,021-66666666,1,1
+5,wang.fang@example.cn,base,Fang,Wang,"300 Tianfu Ave",Chengdu,Sichuan Sheng,711,610000,CN,028-77777777,1,1
+6,jean.dupont@example.fr,base,Jean,Dupont,"10 Rue de Rivoli",Paris,Paris,257,75001,FR,01-23456789,1,1
+7,marie.curie@example.fr,base,Marie,Curie,"15 Rue Nationale",Lyon,Alpes-de-Haute-Provence,185,69000,FR,04-98765432,1,1
+8,pierre.laval@example.fr,base,Pierre,Laval,"25 Avenue Victor Hugo",Marseille,Alpes-de-Haute-Provence,185,13000,FR,04-11223344,1,1
+9,camille.moreau@example.fr,base,Camille,Moreau,"35 Rue Lafayette",Nice,Alpes-de-Haute-Provence,185,06000,FR,04-55667788,1,1
+10,john.doe@example.com,base,John,Doe,"123 Main St",New York,New York,43,10001,US,555-1234,1,1
+11,jane.smith@example.com,base,Jane,Smith,"456 Oak Ave",Los Angeles,California,12,90001,US,555-5678,1,1
+12,anna.muller@example.de,base,Anna,Müller,"1 Hauptstrasse",Berlin,Berlin,82,10115,DE,030-111222,1,1
+13,hans.schmidt@example.de,base,Hans,Schmidt,"2 Königsallee",Düsseldorf,Nordrhein-Westfalen,88,40212,DE,0211-333444,1,1
+14,lucia.rossi@example.it,base,Lucia,Rossi,"Via Roma 10",Rome,Roma,917,00100,IT,06-123456,1,1
+15,marco.bianchi@example.it,base,Marco,Bianchi,"Corso Italia 20",Milan,Milano,889,20100,IT,02-654321,1,1
+16,isabella.ferrari@example.it,base,Isabella,Ferrari,"Via Napoli 30",Naples,Campobasso,853,80100,IT,081-789456,1,1
+17,ahmed.hassan@example.eg,base,Ahmed,Hassan,"12 Nile St",Cairo,Cairo,,11511,EG,02-87654321,1,1
+18,salma.naguib@example.eg,base,Salma,Naguib,"25 El-Tahrir St",Alexandria,Alexandria,,21500,EG,03-6549871,1,1
+19,yuki.tanaka@example.jp,base,Yuki,Tanaka,"1-2-3 Shibuya",Tokyo,Tokyo,,1500001,JP,03-11112222,1,1
+20,haruto.sato@example.jp,base,Haruto,Sato,"4-5-6 Umeda",Osaka,Osaka,,5300001,JP,06-22223333,1,1
+21,alex.johnson@example.co.uk,base,Alex,Johnson,"10 Downing St",London,England,,SW1A 2AA,GB,020-79460000,1,1
+22,sophie.wilson@example.co.uk,base,Sophie,Wilson,"221B Baker St",London,England,,NW1 6XE,GB,020-72244666,1,1

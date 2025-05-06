@@ -5,14 +5,7 @@
         var chartDom = document.getElementById('adminHeatmap');
         var myChart = echarts.init(chartDom);
 
-        // Sample sales data per country
-        var data = [
-            { name: 'United States', value: 120000 },
-            { name: 'Germany', value: 88000 },
-            { name: 'France', value: 50000 },
-            { name: 'Morocco', value: 32000 },
-            { name: 'China', value: 150000 },
-        ];
+        var data = <?= json_encode($block->getCustomerCountByCountry()) ?>;
 
         var option = {
             title: {
@@ -21,7 +14,7 @@
             },
             tooltip: {
                 trigger: 'item',
-                formatter: '{b}<br/>Customers: ${c}'
+                formatter: '{b}<br/>Customers: {c}'
             },
             visualMap: {
                 min: 0,
@@ -36,7 +29,7 @@
             },
             series: [
                 {
-                    name: 'Sales',
+                    name: 'Customers',
                     type: 'map',
                     map: 'world',
                     roam: true,
@@ -50,8 +43,7 @@
             ]
         };
 
-        // Load the world map
-        $.get('<?php echo $block->getViewFileUrl('Originalapp_Reports::js/map/world.json'); ?>', function (geoJson) {
+        $.get('<?= $block->getViewFileUrl('Originalapp_Reports::js/map/world.json') ?>', function (geoJson) {
             echarts.registerMap('world', geoJson);
             myChart.setOption(option);
         });
