@@ -8,21 +8,26 @@
 
         var data = <?= json_encode($block->getSalesByCountry()) ?>;
 
+        var titleText = <?= json_encode(__('Sales by Country')) ?>;
+        var tooltipSales = <?= json_encode(__('Sales')) ?>;
+        var visualHigh = <?= json_encode(__('High')) ?>;
+        var visualLow = <?= json_encode(__('Low')) ?>;
+
         var option = {
             title: {
-                text: 'Sales by Country',
+                text: titleText,
                 left: 'center'
             },
             tooltip: {
                 trigger: 'item',
-                formatter: '{b}<br/>Sales: ${c}'
+                formatter: '{b}<br/>' + tooltipSales + ': ${c}'
             },
             visualMap: {
                 min: 0,
                 max: 200000,
                 left: 'left',
                 top: 'bottom',
-                text: ['High', 'Low'],
+                text: [visualHigh, visualLow],
                 calculable: true,
                 inRange: {
                     color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4']
@@ -30,7 +35,7 @@
             },
             series: [
                 {
-                    name: 'Sales',
+                    name: tooltipSales,
                     type: 'map',
                     map: 'world',
                     roam: true,
@@ -45,7 +50,7 @@
         };
 
         // Load the world map
-        $.get('<?php echo $block->getViewFileUrl('Originalapp_Reports::js/map/world.json'); ?>', function (geoJson) {
+        $.get('<?= $block->getViewFileUrl('Originalapp_Reports::js/map/world.json'); ?>', function (geoJson) {
             echarts.registerMap('world', geoJson);
             myChart.setOption(option);
         });

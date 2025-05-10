@@ -5,13 +5,18 @@
         const chartDom = document.getElementById('salesGrowthChart');
         const myChart = echarts.init(chartDom);
 
-        // Replace this with dynamic PHP data using json_encode
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const sales = [1200, 1800, 1600, 2100, 2500, 3000, 2700, 3200, 3500, 4000, 4200, 4800];
+        const salesData = <?= $block->getSalesGrowthJson() ?>;
+        const months = salesData.months;
+        const sales = salesData.sales;
+        const currencySymbol = <?= json_encode($block->getCurrencySymbol()) ?>;
+
+        const titleText = <?= json_encode(__('Monthly Sales Growth')) ?>;
+        const seriesName = <?= json_encode(__('Sales')) ?>;
+        const yAxisLabel = seriesName + ' (' + currencySymbol + ')';
 
         const option = {
             title: {
-                text: 'Monthly Sales Growth',
+                text: titleText,
                 left: 'center'
             },
             tooltip: {
@@ -23,11 +28,11 @@
             },
             yAxis: {
                 type: 'value',
-                name: 'Sales (€)'
+                name: yAxisLabel
             },
             series: [
                 {
-                    name: 'Sales',
+                    name: seriesName,
                     type: 'line',
                     smooth: true,
                     areaStyle: {},

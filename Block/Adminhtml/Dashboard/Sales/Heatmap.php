@@ -11,7 +11,6 @@ namespace Originalapp\Reports\Block\Adminhtml\Dashboard\Sales;
 use Magento\Backend\Block\Template;
 use Magento\Framework\App\ResourceConnection;
 use Originalapp\Reports\Model\CountryStats;
-use Originalapp\Reports\Helper\Data as HelperData;
 
 class Heatmap extends Template
 {

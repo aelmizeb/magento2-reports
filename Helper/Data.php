@@ -8,13 +8,15 @@ declare(strict_types=1);
 
 namespace Originalapp\Reports\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Directory\Model\CountryFactory;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
 {
     protected CountryFactory $countryFactory;
+    protected PriceCurrencyInterface $priceCurrency;
 
     /**
      * Simple in-memory cache to avoid redundant DB queries
@@ -23,10 +25,12 @@ class Data extends AbstractHelper
 
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        CountryFactory $countryFactory
+        CountryFactory $countryFactory,
+        PriceCurrencyInterface $priceCurrency,
     ) {
         parent::__construct($context);
         $this->countryFactory = $countryFactory;
+        $this->priceCurrency = $priceCurrency;
     }
 
     /**
@@ -82,5 +86,15 @@ class Data extends AbstractHelper
         ];
 
         return $map[$name] ?? $name;
+    }
+
+    /**
+     * Get the current currency Symbol
+     * 
+     * @return string
+     */
+    public function getCurrencySymbol(): string
+    {
+        return $this->priceCurrency->getCurrency()->getCurrencySymbol();
     }
 }

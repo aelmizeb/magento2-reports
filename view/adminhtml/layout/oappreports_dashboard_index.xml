@@ -10,7 +10,7 @@
                 name="originalapp.reports.topproducts"
                 template="Originalapp_Reports::dashboard/sales/top_products.phtml"/>
 
-            <block class="Magento\Framework\View\Element\Template"
+            <block class="Originalapp\Reports\Block\Adminhtml\Dashboard\Sales\Category"
                 name="originalapp.reports.sales.category"
                 template="Originalapp_Reports::dashboard/sales/category.phtml"/>
 
@@ -18,7 +18,7 @@
                 name="originalapp.reports.sales.heatmap"
                 template="Originalapp_Reports::dashboard/sales/heatmap.phtml"/>
 
-            <block class="Magento\Framework\View\Element\Template"
+            <block class="Originalapp\Reports\Block\Adminhtml\Dashboard\Sales\Growth"
                 name="originalapp.reports.sales.growth"
                 template="Originalapp_Reports::dashboard/sales/growth.phtml"/>
         </referenceContainer>

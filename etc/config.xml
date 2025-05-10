@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <originalapp_reports>
+            <sales_growth>
+                <order_statuses>processing,complete</order_statuses>
+                <!-- Test order statuses for testing purposes -->
+                <!-- <order_statuses>pending,processing,complete</order_statuses> -->
+                <!-- <order_statuses>pending,processing,complete,closed,canceled,payment_review,fraud,suspected_fraud</order_statuses> -->
+            </sales_growth>
+        </originalapp_reports>
+    </default>
+</config>

@@ -10,9 +10,13 @@ $productSales = $data['sales'];
         const chartDom = document.getElementById('topProductsChart');
         const myChart = echarts.init(chartDom);
 
+        const titleText = <?= json_encode(__('Top Selling Products')) ?>;
+        const yAxisLabel = <?= json_encode(__('Units Sold')) ?>;
+        const seriesName = <?= json_encode(__('Sales')) ?>;
+
         const option = {
             title: {
-                text: 'Top Selling Products',
+                text: titleText,
                 left: 'center'
             },
             tooltip: {
@@ -31,10 +35,10 @@ $productSales = $data['sales'];
             },
             yAxis: {
                 type: 'value',
-                name: 'Units Sold'
+                name: yAxisLabel
             },
             series: [{
-                name: 'Sales',
+                name: seriesName,
                 type: 'bar',
                 data: <?= json_encode($productSales) ?>,
                 itemStyle: {

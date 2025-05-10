@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Originalapp_Reports::oappdashboard" title="Originalapp Reports Dashboard" translate="title" sortOrder="1"/>
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="Originalapp_Reports::configuration" title="Originalapp Reports"/>
+                            <resource id="Originalapp_Reports::configuration" title="Originalapp Reports Settings"/>
                         </resource>
                     </resource>
+                </resource>
+                <resource id="Originalapp_Reports::main" title="Originalapp Reports" translate="title">
+                    <resource id="Originalapp_Reports::oappdashboard" title="Reports Dashboard"/>
                 </resource>
             </resource>
         </resources>

@@ -5,17 +5,11 @@
         const chartDom = document.getElementById('salesCategoryChart');
         const myChart = echarts.init(chartDom);
 
-        const builderJson = {
-            all: 10887,
-            charts: {
-                Electronics: 3237,
-                Clothing: 2164,
-                Home: 7561,
-                Sports: 7778,
-                Beauty: 7355,
-                Books: 2405
-            }
-        };
+        const builderJson = <?= $block->getSalesDataJson() ?>;
+        const currencySymbol = <?= json_encode($block->getCurrencySymbol()) ?>;
+
+        const titleText = <?= json_encode(__('Sales by Category')) ?>;
+        const subtextPrefix = <?= json_encode(__('Total')) ?>;
 
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -33,10 +27,14 @@
                 image: canvas,
                 repeat: 'repeat'
             },
-            tooltip: {},
+            tooltip: {
+                formatter: function (params) {
+                    return `${params.name || ''}: ${currencySymbol}${params.value}`;
+                }
+            },
             title: {
-                text: 'Sales by Category',
-                subtext: 'Total ' + builderJson.all,
+                text: titleText,
+                subtext: subtextPrefix + ' ' + currencySymbol + builderJson.all,
                 left: 'center',
                 textAlign: 'center'
             },
@@ -50,7 +48,7 @@
                 },
                 {
                     top: '5%',
-                    left: '50%', // Starts the pie chart at the right half
+                    left: '50%',
                     right: '90%',
                     bottom: '10%',
                     containLabel: true
@@ -71,13 +69,19 @@
                 {
                     type: 'bar',
                     z: 3,
-                    label: { position: 'right', show: true },
+                    label: {
+                        position: 'right',
+                        show: true,
+                        formatter: function (params) {
+                            return params.value + currencySymbol;
+                        }
+                    },
                     data: Object.values(builderJson.charts)
                 },
                 {
                     type: 'pie',
                     radius: '50%',
-                    center: ['50%', '50%'], // Center the pie chart within its grid area
+                    center: ['50%', '50%'],
                     data: Object.entries(builderJson.charts).map(([name, value]) => ({
                         name: name,
                         value: value
