@@ -1,6 +1,10 @@
 # Advanced Reports for Magento 2 FREE version
 
 ![WIP](https://img.shields.io/badge/status-WIP-orange?style=flat-square)
+[![Version](https://img.shields.io/github/v/tag/aelmizeb/magento2-reports?label=version)](https://github.com/aelmizeb/magento2-reports/releases)
+[![PHP](https://img.shields.io/badge/php-7.4%20%7C%208.1%20%7C%208.2%20%7C%208.3-blue)]()
+[![Magento](https://img.shields.io/badge/Magento-2.x-orange)]()
+[![License](https://img.shields.io/github/license/aelmizeb/magento2-reports)](LICENSE)
 
 > ⚠️ **WORK IN PROGRESS**  
 > This module is currently under active development. It is not ready for production use. Please do not install it on a live Magento 2 store.
