@@ -9,6 +9,9 @@
                 <!-- <order_statuses>pending,processing,complete</order_statuses> -->
                 <!-- <order_statuses>pending,processing,complete,closed,canceled,payment_review,fraud,suspected_fraud</order_statuses> -->
             </sales_growth>
+            <cron_settings>
+                <cron_enabled>0</cron_enabled>
+            </cron_settings>
         </originalapp_reports>
     </default>
 </config>

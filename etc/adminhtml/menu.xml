@@ -1,8 +1,19 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Originalapp_Reports::oappdashboard" 
-          action="oappreports/dashboard" sortOrder="100" title="Advanced Reports"
+        <add id="Originalapp_Reports::oappreports" 
+          action="oappreports/dashboard" sortOrder="100" title="Advanced Reports" dependsOnModule="Originalapp_Reports"
           translate="title" module="Originalapp_Reports" resource="Magento_Backend::content"/>
+        <add id="Originalapp_Reports::oappreport_dashboard" 
+          action="oappreports/dashboard" sortOrder="10" title="Dashboard" dependsOnModule="Originalapp_Reports"
+          translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
+        <!-- @todo add new action for users stats -->
+        <add id="Originalapp_Reports::oappreport_users" 
+          action="oappreports/dashboard" sortOrder="20" title="Users" dependsOnModule="Originalapp_Reports"
+          translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
+        <!-- @todo add new action for products stats -->
+        <add id="Originalapp_Reports::oappreport_products" 
+          action="oappreports/dashboard" sortOrder="30" title="Products" dependsOnModule="Originalapp_Reports"
+          translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
     </menu>
 </config>

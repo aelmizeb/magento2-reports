@@ -19,6 +19,32 @@
                     <comment>Comma-separated list of order statuses to include (e.g., processing, complete)</comment>
                 </field>
             </group>
+            <group id="cron_settings" translate="label" type="text" sortOrder="20"
+                showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Stats Cron Settings</label>
+
+                <field id="cron_enabled" translate="label comment" type="select" sortOrder="1"
+                    showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Stats Cron Job</label>
+                    <comment>Enable or disable the stats cron job.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="frequency" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cron Frequency</label>
+                    <source_model>Originalapp\Reports\Model\Config\Source\Frequency</source_model>
+                    <backend_model>Originalapp\Reports\Model\Config\StatsCronConfig</backend_model>
+                    <depends>
+                        <field id="cron_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="time" translate="label" type="time" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start Time</label>
+                    <depends>
+                        <field id="cron_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
         </section>
     </system>
 </config>
