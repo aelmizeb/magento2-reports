@@ -9,34 +9,31 @@ declare(strict_types=1);
 namespace Originalapp\Reports\Model;
 
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Escaper;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Originalapp\Reports\Helper\Config as ConfigHelper;
 
 class SalesGrowth
 {
-    protected $orderCollectionFactory;
-    protected $scopeConfig;
-    protected $localeResolver;
-    protected $timezone;
-    protected $escaper;
-
-    const XML_PATH_SALES_ORDER_STATUSES = 'originalapp_reports/sales_growth/order_statuses';
+    protected OrderCollectionFactory $orderCollectionFactory;
+    protected ResolverInterface $localeResolver;
+    protected TimezoneInterface $timezone;
+    protected Escaper $escaper;
+    protected ConfigHelper $configHelper;
 
     public function __construct(
         OrderCollectionFactory $orderCollectionFactory,
-        ScopeConfigInterface $scopeConfig,
         ResolverInterface $localeResolver,
         TimezoneInterface $timezone,
-        Escaper $escaper
+        Escaper $escaper,
+        ConfigHelper $configHelper
     ) {
         $this->orderCollectionFactory = $orderCollectionFactory;
-        $this->scopeConfig = $scopeConfig;
         $this->localeResolver = $localeResolver;
         $this->timezone = $timezone;
         $this->escaper = $escaper;
+        $this->configHelper = $configHelper;
     }
 
     public function getMonthlySalesData(): array
@@ -57,11 +54,12 @@ class SalesGrowth
         $orders = $this->orderCollectionFactory->create();
         $orders->addFieldToFilter('created_at', ['gteq' => $currentYear . '-01-01 00:00:00']);
 
-        // Fetch order statuses from config (comma-separated)
-        $configuredStatuses = $this->scopeConfig->getValue(self::XML_PATH_SALES_ORDER_STATUSES, ScopeInterface::SCOPE_STORE);
-        $statusArray = array_map('trim', explode(',', $configuredStatuses ?: 'processing,complete'));
+        // Get order statuses
+        $statusArray = $this->configHelper->getSalesOrderStatuses();
 
-        $orders->addFieldToFilter('status', ['in' => $statusArray]);
+        if (!empty($statusArray)) {
+            $orders->addFieldToFilter('status', ['in' => $statusArray]);
+        }
 
         foreach ($orders as $order) {
             $createdAt = $this->timezone->date($order->getCreatedAt()); // respects store timezone

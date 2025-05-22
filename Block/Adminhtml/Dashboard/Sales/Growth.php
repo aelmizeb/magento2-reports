@@ -9,22 +9,26 @@ declare(strict_types=1);
 namespace Originalapp\Reports\Block\Adminhtml\Dashboard\Sales;
 
 use Magento\Backend\Block\Template;
+use Originalapp\Reports\Helper\Config as ReportsConfig;
 use Originalapp\Reports\Helper\Data as HelperData;
 use Originalapp\Reports\Model\SalesGrowth;
 
 class Growth extends Template
 {
-    protected $salesGrowth;
-    protected $helper;
+    protected SalesGrowth $salesGrowth;
+    protected HelperData $helper;
+    protected ReportsConfig $config;
 
     public function __construct(
         Template\Context $context,
         SalesGrowth $salesGrowth,
         HelperData $helper,
+        ReportsConfig $config,
         array $data = []
     ) {
         $this->salesGrowth = $salesGrowth;
         $this->helper = $helper;
+        $this->config = $config;
         parent::__construct($context, $data);
     }
 
@@ -36,5 +40,10 @@ class Growth extends Template
     public function getCurrencySymbol(): string
     {
         return $this->helper->getCurrencySymbol();
+    }
+
+    public function canRenderWidget(): bool
+    {
+        return $this->config->isMonthlySalesGrowthWidgetEnabled();
     }
 }

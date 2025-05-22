@@ -3,6 +3,13 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <originalapp_reports>
+            <dashboard>
+                <enable_customer_by_country_widget>1</enable_customer_by_country_widget>
+                <enable_top_selling_products_widget>1</enable_top_selling_products_widget>
+                <enable_sales_by_category_widget>1</enable_sales_by_category_widget>
+                <enable_sales_by_country_widget>1</enable_sales_by_country_widget>
+                <enable_monthly_sales_growth_widget>1</enable_monthly_sales_growth_widget>
+            </dashboard>
             <sales_growth>
                 <order_statuses>processing,complete</order_statuses>
                 <!-- Test order statuses for testing purposes -->

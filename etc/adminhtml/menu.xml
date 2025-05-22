@@ -7,13 +7,14 @@
         <add id="Originalapp_Reports::oappreport_dashboard" 
           action="oappreports/dashboard" sortOrder="10" title="Dashboard" dependsOnModule="Originalapp_Reports"
           translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
-        <!-- @todo add new action for users stats -->
-        <add id="Originalapp_Reports::oappreport_users" 
-          action="oappreports/dashboard" sortOrder="20" title="Users" dependsOnModule="Originalapp_Reports"
+        <add id="Originalapp_Reports::oappreport_sales_customer" 
+          action="oappreports/sales/customer" sortOrder="20" title="Sales By Customer" dependsOnModule="Originalapp_Reports"
           translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
-        <!-- @todo add new action for products stats -->
-        <add id="Originalapp_Reports::oappreport_products" 
-          action="oappreports/dashboard" sortOrder="30" title="Products" dependsOnModule="Originalapp_Reports"
+        <add id="Originalapp_Reports::oappreport_sales_product" 
+          action="oappreports/sales/product" sortOrder="30" title="Sales By Product" dependsOnModule="Originalapp_Reports"
+          translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
+        <add id="Originalapp_Reports::oappreport_sales_category" 
+          action="oappreports/sales/category" sortOrder="30" title="Sales By Category" dependsOnModule="Originalapp_Reports"
           translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
     </menu>
 </config>

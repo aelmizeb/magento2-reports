@@ -10,7 +10,42 @@
             <label>Originalapp Reports</label>
             <tab>originalapp</tab>
             <resource>Originalapp_Reports::configuration</resource>
-            <group id="sales_growth" translate="label" type="text" sortOrder="10"
+            <group id="dashboard" translate="label" type="text" sortOrder="10"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Dashboard</label>
+                <field id="enable_customer_by_country_widget" translate="label comment" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Customer by Country</label>
+                    <comment>Enable or disable the Customer by Country widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_top_selling_products_widget" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Top Selling Products</label>
+                    <comment>Enable or disable the Top Selling Products widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_sales_by_category_widget" translate="label comment" type="select" sortOrder="30"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Sales by Category</label>
+                    <comment>Enable or disable the Sales by Category widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_sales_by_country_widget" translate="label comment" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Sales by Country</label>
+                    <comment>Enable or disable the Sales by Country widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_monthly_sales_growth_widget" translate="label comment" type="select" sortOrder="50"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Monthly Sales Growth</label>
+                    <comment>Enable or disable the Monthly Sales Growth widget</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="sales_growth" translate="label" type="text" sortOrder="20"
                    showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sales Growth Report</label>
                 <field id="order_statuses" translate="label comment" type="text" sortOrder="10"
@@ -19,17 +54,16 @@
                     <comment>Comma-separated list of order statuses to include (e.g., processing, complete)</comment>
                 </field>
             </group>
-            <group id="cron_settings" translate="label" type="text" sortOrder="20"
-                showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Stats Cron Settings</label>
 
+            <group id="cron_settings" translate="label" type="text" sortOrder="30"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Stats Cron Settings</label>
                 <field id="cron_enabled" translate="label comment" type="select" sortOrder="1"
-                    showInDefault="1" showInWebsite="1" showInStore="1">
+                       showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Stats Cron Job</label>
-                    <comment>Enable or disable the stats cron job.</comment>
+                    <comment>Enable or disable the statistics cron job</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-
                 <field id="frequency" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Cron Frequency</label>
                     <source_model>Originalapp\Reports\Model\Config\Source\Frequency</source_model>

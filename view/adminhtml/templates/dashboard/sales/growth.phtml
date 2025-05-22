@@ -1,46 +1,48 @@
-<div id="salesGrowthChart" class="stat-container container-width-50"></div>
+<?php if ($block->canRenderWidget()): ?>
+    <div id="salesGrowthChart" class="stat-container container-width-50"></div>
 
-<script type="text/javascript">
-    require(['jquery', 'echarts'], function ($, echarts) {
-        const chartDom = document.getElementById('salesGrowthChart');
-        const myChart = echarts.init(chartDom);
+    <script type="text/javascript">
+        require(['jquery', 'echarts'], function ($, echarts) {
+            const chartDom = document.getElementById('salesGrowthChart');
+            const myChart = echarts.init(chartDom);
 
-        const salesData = <?= $block->getSalesGrowthJson() ?>;
-        const months = salesData.months;
-        const sales = salesData.sales;
-        const currencySymbol = <?= json_encode($block->getCurrencySymbol()) ?>;
+            const salesData = <?= $block->getSalesGrowthJson() ?>;
+            const months = salesData.months;
+            const sales = salesData.sales;
+            const currencySymbol = <?= json_encode($block->getCurrencySymbol()) ?>;
 
-        const titleText = <?= json_encode(__('Monthly Sales Growth')) ?>;
-        const seriesName = <?= json_encode(__('Sales')) ?>;
-        const yAxisLabel = seriesName + ' (' + currencySymbol + ')';
+            const titleText = <?= json_encode(__('Monthly Sales Growth')) ?>;
+            const seriesName = <?= json_encode(__('Sales')) ?>;
+            const yAxisLabel = seriesName + ' (' + currencySymbol + ')';
 
-        const option = {
-            title: {
-                text: titleText,
-                left: 'center'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: {
-                type: 'category',
-                data: months
-            },
-            yAxis: {
-                type: 'value',
-                name: yAxisLabel
-            },
-            series: [
-                {
-                    name: seriesName,
-                    type: 'line',
-                    smooth: true,
-                    areaStyle: {},
-                    data: sales
-                }
-            ]
-        };
+            const option = {
+                title: {
+                    text: titleText,
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: months
+                },
+                yAxis: {
+                    type: 'value',
+                    name: yAxisLabel
+                },
+                series: [
+                    {
+                        name: seriesName,
+                        type: 'line',
+                        smooth: true,
+                        areaStyle: {},
+                        data: sales
+                    }
+                ]
+            };
 
-        myChart.setOption(option);
-    });
-</script>
+            myChart.setOption(option);
+        });
+    </script>
+<?php endif; ?>

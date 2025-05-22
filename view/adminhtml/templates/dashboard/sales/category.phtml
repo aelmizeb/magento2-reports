@@ -1,98 +1,100 @@
-<div id="salesCategoryChart" class="stat-container container-width-100"></div>
+<?php if ($block->canRenderWidget()): ?>
+    <div id="salesCategoryChart" class="stat-container container-width-100"></div>
 
-<script type="text/javascript">
-    require(['jquery', 'echarts'], function ($, echarts) {
-        const chartDom = document.getElementById('salesCategoryChart');
-        const myChart = echarts.init(chartDom);
+    <script type="text/javascript">
+        require(['jquery', 'echarts'], function ($, echarts) {
+            const chartDom = document.getElementById('salesCategoryChart');
+            const myChart = echarts.init(chartDom);
 
-        const builderJson = <?= $block->getSalesDataJson() ?>;
-        const currencySymbol = <?= json_encode($block->getCurrencySymbol()) ?>;
+            const builderJson = <?= $block->getSalesDataJson() ?>;
+            const currencySymbol = <?= json_encode($block->getCurrencySymbol()) ?>;
 
-        const titleText = <?= json_encode(__('Sales by Category')) ?>;
-        const subtextPrefix = <?= json_encode(__('Total')) ?>;
+            const titleText = <?= json_encode(__('Sales by Category')) ?>;
+            const subtextPrefix = <?= json_encode(__('Total')) ?>;
 
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = canvas.height = 100;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.globalAlpha = 0.08;
-        ctx.font = '20px Microsoft Yahei';
-        ctx.translate(50, 50);
-        ctx.rotate(-Math.PI / 4);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.height = 100;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.globalAlpha = 0.08;
+            ctx.font = '20px Microsoft Yahei';
+            ctx.translate(50, 50);
+            ctx.rotate(-Math.PI / 4);
 
-        const option = {
-            backgroundColor: {
-                type: 'pattern',
-                image: canvas,
-                repeat: 'repeat'
-            },
-            tooltip: {
-                formatter: function (params) {
-                    return `${params.name || ''}: ${currencySymbol}${params.value}`;
-                }
-            },
-            title: {
-                text: titleText,
-                subtext: subtextPrefix + ' ' + currencySymbol + builderJson.all,
-                left: 'center',
-                textAlign: 'center'
-            },
-            grid: [
-                {
-                    top: '5%', // Adds space for the title
-                    left: '5%',
-                    right: '50%', // Makes space for the pie chart
-                    bottom: '10%', // Reserve some space at the bottom
-                    containLabel: true
+            const option = {
+                backgroundColor: {
+                    type: 'pattern',
+                    image: canvas,
+                    repeat: 'repeat'
                 },
-                {
-                    top: '5%',
-                    left: '50%',
-                    right: '90%',
-                    bottom: '10%',
-                    containLabel: true
-                }
-            ],
-            xAxis: {
-                type: 'value',
-                max: builderJson.all,
-                splitLine: { show: false }
-            },
-            yAxis: {
-                type: 'category',
-                data: Object.keys(builderJson.charts),
-                axisLabel: { interval: 0, rotate: 30 },
-                splitLine: { show: false }
-            },
-            series: [
-                {
-                    type: 'bar',
-                    z: 3,
-                    label: {
-                        position: 'right',
-                        show: true,
-                        formatter: function (params) {
-                            return params.value + currencySymbol;
-                        }
-                    },
-                    data: Object.values(builderJson.charts)
-                },
-                {
-                    type: 'pie',
-                    radius: '50%',
-                    center: ['50%', '50%'],
-                    data: Object.entries(builderJson.charts).map(([name, value]) => ({
-                        name: name,
-                        value: value
-                    })),
-                    label: {
-                        formatter: '{b}: {d}%'
+                tooltip: {
+                    formatter: function (params) {
+                        return `${params.name || ''}: ${currencySymbol}${params.value}`;
                     }
-                }
-            ]
-        };
+                },
+                title: {
+                    text: titleText,
+                    subtext: subtextPrefix + ' ' + currencySymbol + builderJson.all,
+                    left: 'center',
+                    textAlign: 'center'
+                },
+                grid: [
+                    {
+                        top: '5%', // Adds space for the title
+                        left: '5%',
+                        right: '50%', // Makes space for the pie chart
+                        bottom: '10%', // Reserve some space at the bottom
+                        containLabel: true
+                    },
+                    {
+                        top: '5%',
+                        left: '50%',
+                        right: '90%',
+                        bottom: '10%',
+                        containLabel: true
+                    }
+                ],
+                xAxis: {
+                    type: 'value',
+                    max: builderJson.all,
+                    splitLine: { show: false }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: Object.keys(builderJson.charts),
+                    axisLabel: { interval: 0, rotate: 30 },
+                    splitLine: { show: false }
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        z: 3,
+                        label: {
+                            position: 'right',
+                            show: true,
+                            formatter: function (params) {
+                                return params.value + currencySymbol;
+                            }
+                        },
+                        data: Object.values(builderJson.charts)
+                    },
+                    {
+                        type: 'pie',
+                        radius: '50%',
+                        center: ['50%', '50%'],
+                        data: Object.entries(builderJson.charts).map(([name, value]) => ({
+                            name: name,
+                            value: value
+                        })),
+                        label: {
+                            formatter: '{b}: {d}%'
+                        }
+                    }
+                ]
+            };
 
-        myChart.setOption(option);
-    });
-</script>
+            myChart.setOption(option);
+        });
+    </script>
+<?php endif; ?>
