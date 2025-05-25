@@ -26,6 +26,7 @@ class Index extends Action
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Originalapp_Reports::oappreports');
         $resultPage->getConfig()->getTitle()->prepend(__('Advanced Reports'));
+        
         return $resultPage;
     }
 }

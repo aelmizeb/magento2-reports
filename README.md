@@ -11,7 +11,8 @@
 
 
 ## 🔎 Preview
-![Module Preview](./view/adminhtml/web/images/preview.png)
+![Dashboard Preview](./view/adminhtml/web/images/preview-dashboard.png)
+![Config Preview](./view/adminhtml/web/images/preview-config.png)
 
 ## ✨ Description
 

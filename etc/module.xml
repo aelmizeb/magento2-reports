@@ -3,6 +3,7 @@
     <module name="Originalapp_Reports" >
         <sequence>
             <module name="Magento_Backend"/>
+            <module name="Magento_Ui" />
         </sequence>
     </module>
 </config>

@@ -49,6 +49,7 @@ class Product extends Action
         $resultPage->setActiveMenu('Originalapp_Reports::oappreports')
             ->addBreadcrumb(__('Sales'), __('Sales'))
             ->addBreadcrumb(__('Sales By Product'), __('Sales By Product'));
+
         return $resultPage;
     }
 
@@ -61,6 +62,7 @@ class Product extends Action
     {
         $resultPage = $this->_initAction();
         $resultPage->getConfig()->getTitle()->prepend(__('Sales By Product'));
+
         return $resultPage;
     }
 }

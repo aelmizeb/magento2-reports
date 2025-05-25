@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- category -->
+    <type name="Originalapp\Reports\Ui\DataProvider\Category\ListingDataProvider">
+        <plugin name="originalapp_reports_category_attributes" type="Originalapp\Reports\Plugin\AddCategoryNameFilterToDataProvider" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+        <argument name="collections" xsi:type="array">
+            <item name="oappreports_sales_category_listing_data_source" xsi:type="string">OriginalappReportsCategoryCollection</item>
+        </argument>
+        </arguments>
+    </type>
+    <virtualType name="OriginalappReportsCategoryCollection" type="Originalapp\Reports\Ui\DataProvider\Category\Listing\Collection">
+        <arguments>
+        <argument name="mainTable" xsi:type="string">catalog_category_entity</argument>
+        <argument name="resourceModel" xsi:type="string">Originalapp\Reports\Model\ResourceModel\Category</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- customer -->
+    <!-- @todo -->
+
+    <!-- product -->
+    <!-- @todo -->
+</config>

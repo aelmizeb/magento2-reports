@@ -49,6 +49,7 @@ class Category extends Action
         $resultPage->setActiveMenu('Originalapp_Reports::oappreports')
             ->addBreadcrumb(__('Sales'), __('Sales'))
             ->addBreadcrumb(__('Sales By Category'), __('Sales By Category'));
+
         return $resultPage;
     }
 
@@ -61,6 +62,7 @@ class Category extends Action
     {
         $resultPage = $this->_initAction();
         $resultPage->getConfig()->getTitle()->prepend(__('Sales By Category'));
+
         return $resultPage;
     }
 }
