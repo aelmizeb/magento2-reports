@@ -19,8 +19,20 @@
     </virtualType>
 
     <!-- customer -->
-    <!-- @todo -->
-
-    <!-- product -->
-    <!-- @todo -->
+    <type name="Originalapp\Reports\Ui\DataProvider\Customer\ListingDataProvider">
+        <plugin name="originalapp_reports_customer_attributes" type="Originalapp\Reports\Plugin\AddCustomerNameFilterToDataProvider" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="oappreports_sales_customer_listing_data_source" xsi:type="string">OriginalappReportsCustomerCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="OriginalappReportsCustomerCollection" type="Originalapp\Reports\Ui\DataProvider\Customer\Listing\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">customer_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Originalapp\Reports\Model\ResourceModel\Customer</argument>
+        </arguments>
+    </virtualType>
 </config>

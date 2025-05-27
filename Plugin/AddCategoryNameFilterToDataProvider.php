@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © 2025 Abdellatif EL MIZEB. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 namespace Originalapp\Reports\Plugin;
 
 use Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult;

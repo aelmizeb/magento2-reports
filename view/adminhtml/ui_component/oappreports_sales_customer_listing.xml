@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+  <argument name="data" xsi:type="array">
+    <item name="js_config" xsi:type="array">
+      <item name="provider" xsi:type="string">oappreports_sales_customer_listing.oappreports_sales_customer_listing_data_source</item>
+      <item name="deps" xsi:type="string">oappreports_sales_customer_listing.oappreports_sales_customer_listing_data_source</item>
+    </item>
+    <item name="spinner" xsi:type="string">originalapp_reports_customer_columns</item>
+  </argument>
+
+  <dataSource name="oappreports_sales_customer_listing_data_source">
+    <argument name="dataProvider" xsi:type="configurableObject">
+      <argument name="class" xsi:type="string">Originalapp\Reports\Ui\DataProvider\Customer\ListingDataProvider</argument>
+      <argument name="name" xsi:type="string">oappreports_sales_customer_listing_data_source</argument>
+      <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+      <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+      <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+          <item name="update_url" xsi:type="url" path="mui/index/render"/>
+          <item name="storageConfig" xsi:type="array">
+            <item name="indexField" xsi:type="string">entity_id</item>
+          </item>
+        </item>
+      </argument>
+    </argument>
+    <argument name="data" xsi:type="array">
+      <item name="js_config" xsi:type="array">
+        <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+      </item>
+    </argument>
+  </dataSource>
+
+  <listingToolbar name="listing_top">
+    <bookmark name="bookmarks"/>
+    <columnsControls name="columns_controls"/>
+    <filters name="listing_filters"/>
+    <!-- @todo add action to export data -->
+    <!-- <exportButton name="export_button">
+      <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+          <item name="url" xsi:type="string">oappreports/sales/customerexport</item>
+        </item>
+      </argument>
+    </exportButton> -->
+    <paging name="listing_paging"/>
+  </listingToolbar>
+
+  <columns name="originalapp_reports_customer_columns">
+    <column name="entity_id" sortOrder="10">
+      <settings>
+        <filter>textRange</filter>
+        <label translate="true">Customer ID</label>
+      </settings>
+    </column>
+    <column name="firstname" sortOrder="20">
+      <settings>
+        <filter>text</filter>
+        <label translate="true">First Name</label>
+      </settings>
+    </column>
+    <column name="lastname" sortOrder="30">
+      <settings>
+        <filter>text</filter>
+        <label translate="true">Last Name</label>
+      </settings>
+    </column>
+    <column name="email" sortOrder="40">
+      <settings>
+        <filter>text</filter>
+        <label translate="true">Email</label>
+      </settings>
+    </column>
+    <column name="total_sales" class="Magento\Catalog\Ui\Component\Listing\Columns\Price" sortOrder="50">
+      <settings>
+        <addField>true</addField>
+        <filter>textRange</filter>
+        <label translate="true">Total Sales</label>
+      </settings>
+    </column>
+  </columns>
+</listing>
