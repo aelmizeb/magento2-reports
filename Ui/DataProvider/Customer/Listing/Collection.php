@@ -9,16 +9,9 @@ declare(strict_types=1);
 namespace Originalapp\Reports\Ui\DataProvider\Customer\Listing;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
-use Originalapp\Reports\Model\Customer as CustomerModel;
-use Originalapp\Reports\Model\ResourceModel\Customer as CustomerResource;
 
 class Collection extends AbstractCollection
 {
-    protected function _construct()
-    {
-        $this->_init(CustomerModel::class, CustomerResource::class);
-    }
-
     protected function _initSelect()
     {
         parent::_initSelect();

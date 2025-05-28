@@ -35,4 +35,22 @@
             <argument name="resourceModel" xsi:type="string">Originalapp\Reports\Model\ResourceModel\Customer</argument>
         </arguments>
     </virtualType>
+
+    <!-- product -->
+    <type name="Originalapp\Reports\Ui\DataProvider\Product\ListingDataProvider">
+        <plugin name="originalapp_reports_product_attributes" type="Originalapp\Reports\Plugin\AddProductNameFilterToDataProvider" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="oappreports_sales_product_listing_data_source" xsi:type="string">OriginalappReportsProductCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="OriginalappReportsProductCollection" type="Originalapp\Reports\Ui\DataProvider\Product\Listing\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">catalog_product_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Originalapp\Reports\Model\ResourceModel\Product</argument>
+        </arguments>
+    </virtualType>
 </config>
