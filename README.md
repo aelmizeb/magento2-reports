@@ -2,8 +2,8 @@
 
 ![WIP](https://img.shields.io/badge/status-WIP-orange?style=flat-square)
 [![Version](https://img.shields.io/github/v/tag/aelmizeb/magento2-reports?label=version)](https://github.com/aelmizeb/magento2-reports/releases)
-[![PHP](https://img.shields.io/badge/php-7.4%20%7C%208.1%20%7C%208.2%20%7C%208.3-blue)]()
-[![Magento](https://img.shields.io/badge/Magento-2.x-orange)]()
+[![PHP](https://img.shields.io/badge/php-8.1%20%7C%208.2%20%7C%208.3%20%7C%208.4-blue)]()
+[![Magento](https://img.shields.io/badge/Magento-2.4.x-orange)]()
 [![License](https://img.shields.io/github/license/aelmizeb/magento2-reports)](LICENSE)
 
 > ⚠️ **WORK IN PROGRESS**  
@@ -49,7 +49,7 @@ php bin/magento cache:flush
 ## 🧩 Compatibility
 Magento Open Source 2.4.x+
 
-PHP 7.4 / 8.1+
+PHP 8.1+
 
 Compatible with most custom and third-party themes
 
