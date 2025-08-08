@@ -29,4 +29,12 @@ class Index extends Action
         
         return $resultPage;
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Originalapp_Reports::oappreports');
+    }
 }
