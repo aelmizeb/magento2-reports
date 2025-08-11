@@ -8,39 +8,20 @@ declare(strict_types=1);
 
 namespace Originalapp\Reports\Model\Config;
 
+use Magento\Framework\Exception\LocalizedException;
+
 class StatsCronConfig extends \Magento\Framework\App\Config\Value
 {
     /**
      * Cron string path for stats
      */
-    public const CRON_STRING_PATH = 'crontab/default/jobs/originalapp_reports_cron_job/schedule/cron_expr';
-
-    /**
-     * Cron mode path
-     */
-    public const CRON_MODEL_PATH = 'crontab/default/jobs/originalapp_reports_cron_job/run/model';
+    const CRON_STRING_PATH = 'crontab/default/jobs/originalapp_reports_cron_job/schedule/cron_expr';
 
     /**
      * @var \Magento\Framework\App\Config\ValueFactory
      */
-    protected $_configValueFactory;
+    protected $configValueFactory;
 
-    /**
-     * @var string
-     */
-    protected $_runModelPath = '';
-
-    /**
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
-     * @param string $runModelPath
-     * @param array $data
-     */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -49,11 +30,9 @@ class StatsCronConfig extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ValueFactory $configValueFactory,
         ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        $runModelPath = '',
         array $data = []
     ) {
-        $this->_runModelPath = $runModelPath;
-        $this->_configValueFactory = $configValueFactory;
+        $this->configValueFactory = $configValueFactory;
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
     }
 
@@ -65,42 +44,42 @@ class StatsCronConfig extends \Magento\Framework\App\Config\Value
      */
     public function afterSave()
     {
-        $time = $this->getData('groups/cron_settings/fields/time/value') ?:
-            explode(
-                ',',
-                $this->_config->getValue('originalapp_reports/cron_settings/time', $this->getScope(), $this->getScopeId()) ?: '0,0,0'
-            );
+        $time = $this->getData('groups/cron_settings/fields/time/value')
+            ?: explode(',', $this->_config->getValue('originalapp_reports/cron_settings/time', $this->getScope(), $this->getScopeId()) ?: '0,0');
+
         $frequency = $this->getValue();
+        $cronExprString = '* * * * *'; // default every minute
 
-        $cronExprArray = [
-            (int)($time[1] ?? 0), //Minute
-            (int)($time[0] ?? 0), //Hour
-            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY ? '1' : '*', //Day of the Month
-            '*', //Month of the Year
-            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*', //# Day of the Week
-        ];
-
-        $cronExprString = join(' ', $cronExprArray);
+        switch ($frequency) {
+            case 'hourly':
+                $cronExprString = sprintf('%d * * * *', (int)($time[1] ?? 0));
+                break;
+            case 'daily':
+                $cronExprString = sprintf('%d %d * * *', (int)($time[1] ?? 0), (int)($time[0] ?? 0));
+                break;
+            case 'weekly':
+                $cronExprString = sprintf('%d %d * * 0', (int)($time[1] ?? 0), (int)($time[0] ?? 0));
+                break;
+            case 'monthly':
+                $cronExprString = sprintf('%d %d 1 * *', (int)($time[1] ?? 0), (int)($time[0] ?? 0));
+                break;
+            case 'yearly':
+                $cronExprString = sprintf('%d %d 1 1 *', (int)($time[1] ?? 0), (int)($time[0] ?? 0));
+                break;
+            case 'always':
+            default:
+                $cronExprString = '* * * * *';
+        }
 
         try {
-            $this->_configValueFactory->create()->load(
+            $this->configValueFactory->create()->load(
                 self::CRON_STRING_PATH,
                 'path'
-            )->setValue(
-                $cronExprString
-            )->setPath(
-                self::CRON_STRING_PATH
-            )->save();
-            $this->_configValueFactory->create()->load(
-                self::CRON_MODEL_PATH,
-                'path'
-            )->setValue(
-                $this->_runModelPath
-            )->setPath(
-                self::CRON_MODEL_PATH
-            )->save();
+            )->setValue($cronExprString)
+            ->setPath(self::CRON_STRING_PATH)
+            ->save();
         } catch (\Exception $e) {
-            throw new LocalizedException(__('We can\'t save the cron expression.'));
+            throw new LocalizedException(__('We can\'t save the cron expression: %1', $e->getMessage()));
         }
 
         return parent::afterSave();
