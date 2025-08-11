@@ -1,75 +1,202 @@
 <?php
 /**
- * Copyright © 2025 Abdellatif EL MIZEB. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright © 2025 Abdellatif EL MIZEB.
+ * All rights reserved.
  */
 
 declare(strict_types=1);
 
 namespace Originalapp\Reports\Cron;
 
-use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
-use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory as CustomerCollectionFactory;
-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Serialize\Serializer\Json;
+use Originalapp\Reports\Model\StatFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * Stats cron actions
  */
 class Stats
 {
-    protected $orderCollectionFactory;
-    protected $customerCollectionFactory;
-    protected $productCollectionFactory;
     protected $resource;
     protected $serializer;
+    protected $statFactory;
+    protected $logger;
 
     public function __construct(
-        OrderCollectionFactory $orderCollectionFactory,
-        CustomerCollectionFactory $customerCollectionFactory,
-        ProductCollectionFactory $productCollectionFactory,
         ResourceConnection $resource,
-        Json $serializer
+        Json $serializer,
+        StatFactory $statFactory,
+        LoggerInterface $logger
     ) {
-        $this->orderCollectionFactory = $orderCollectionFactory;
-        $this->customerCollectionFactory = $customerCollectionFactory;
-        $this->productCollectionFactory = $productCollectionFactory;
         $this->resource = $resource;
         $this->serializer = $serializer;
+        $this->statFactory = $statFactory;
+        $this->logger = $logger;
     }
 
     public function execute()
     {
-        // @todo: Implement stats gathering logic (to be reviewed)
-        // @todo: Add error handling and logging
-        // @todo: Optimize database interactions
-        // @todo: Add more detailed statistics as needed
-        // This method will gather statistics and save them to the database
+        try {
+            $now = (new \DateTime())->format('Y-m-d H:i:s');
+            $meta = $this->serializer->serialize([
+                'source' => 'cron',
+            ]);
 
+            // Gather stats
+            $stats = array_merge(
+                $this->getGeneralStats(),
+                $this->getAnnualStats()
+            );
+
+            // Save stats
+            foreach ($stats as $stat) {
+                // Note: The 'true' flag clears the stats table before inserting new records
+                // This is to ensure we only keep the latest stats
+                // If you want to keep historical data, set this to false
+                // $this->saveStat($stat['type'], (string)$stat['value'], $meta, $now, false);
+                // @todo: add config option to control this behavior
+                // For now, we clear the table before inserting new stats
+                $this->saveStat($stat['type'], (string) $stat['value'], $meta, $now, true);
+            }
+
+            $this->logger->info('[Originalapp_Reports] Stats cron completed', [
+                'count' => count($stats)
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->logger->error('[Originalapp_Reports] Cron error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+    }
+
+    /**
+     * General statistics (all-time)
+     */
+    private function getGeneralStats(): array
+    {
+        $connection = $this->resource->getConnection();
+
+        $tableOrder       = $this->resource->getTableName('sales_order');
+        $tableCustomer    = $this->resource->getTableName('customer_entity');
+        $tableProduct     = $this->resource->getTableName('catalog_product_entity');
+        $tableProductInt  = $this->resource->getTableName('catalog_product_entity_int');
+        $tableEavAttr     = $this->resource->getTableName('eav_attribute');
+
+        $totalOrders = (int)$connection->fetchOne("SELECT COUNT(*) FROM {$tableOrder}");
+        $totalCustomers = (int)$connection->fetchOne("SELECT COUNT(*) FROM {$tableCustomer}");
+        $totalProducts = (int)$connection->fetchOne("SELECT COUNT(*) FROM {$tableProduct}");
+
+        $totalSales = (float)$connection->fetchOne("
+            SELECT SUM(grand_total) 
+            FROM {$tableOrder}
+            WHERE status != 'canceled'
+        ");
+
+        $avgOrderValue = $totalOrders > 0 ? $totalSales / $totalOrders : 0;
+
+        $newCustomersLast30 = (int)$connection->fetchOne("
+            SELECT COUNT(*) 
+            FROM {$tableCustomer} 
+            WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        ");
+
+        $activeProducts = (int)$connection->fetchOne("
+            SELECT COUNT(*) 
+            FROM {$tableProductInt} AS t
+            JOIN {$tableEavAttr} AS ea ON t.attribute_id = ea.attribute_id
+            WHERE ea.attribute_code = 'status' 
+            AND t.value = 1
+        ");
+
+        return [
+            ['type' => 'total_orders',         'value' => $totalOrders],
+            ['type' => 'total_customers',      'value' => $totalCustomers],
+            ['type' => 'total_products',       'value' => $totalProducts],
+            ['type' => 'total_sales',          'value' => number_format($totalSales, 2, '.', '')],
+            ['type' => 'avg_order_value',      'value' => number_format($avgOrderValue, 2, '.', '')],
+            ['type' => 'new_customers_30_days','value' => $newCustomersLast30],
+            ['type' => 'active_products',      'value' => $activeProducts],
+        ];
+    }
+
+    /**
+     * Annual statistics (current year)
+     */
+    private function getAnnualStats(): array
+    {
+        return [
+            $this->getAnnualSalesStat(),
+            $this->getAnnualOrdersStat(),
+        ];
+    }
+
+    /**
+     * Get total sales for current year
+     */
+    private function getAnnualSalesStat(): array
+    {
+        $connection = $this->resource->getConnection();
+        $table = $this->resource->getTableName('sales_order');
+
+        $yearlySales = (float)$connection->fetchOne("
+            SELECT SUM(grand_total) 
+            FROM {$table}
+            WHERE status != 'canceled'
+            AND YEAR(created_at) = YEAR(CURDATE())
+        ");
+
+        return [
+            'type' => 'yearly_sales',
+            'value' => number_format($yearlySales, 2, '.', '')
+        ];
+    }
+
+    /**
+     * Get total orders for current year
+     */
+    private function getAnnualOrdersStat(): array
+    {
+        $connection = $this->resource->getConnection();
+        $table = $this->resource->getTableName('sales_order');
+
+        $yearlyOrders = (int)$connection->fetchOne("
+            SELECT COUNT(*) 
+            FROM {$table}
+            WHERE YEAR(created_at) = YEAR(CURDATE())
+        ");
+
+        return [
+            'type' => 'yearly_orders',
+            'value' => $yearlyOrders
+        ];
+    }
+
+    /**
+     * Save a stat record
+     */
+    private function saveStat(string $type, string $value, string $meta, string $createdAt, bool $clearBeforeInsert = false): void
+    {
         $connection = $this->resource->getConnection();
         $tableName = $this->resource->getTableName('originalapp_reports_stats');
 
-        // Gather stats
-        $totalOrders = $this->orderCollectionFactory->create()->getSize();
-        $totalCustomers = $this->customerCollectionFactory->create()->getSize();
-        $totalProducts = $this->productCollectionFactory->create()->getSize();
+        static $cleared = false; // Prevent multiple clears in the same run
 
-        $stats = [
-            ['type' => 'total_orders', 'value' => $totalOrders],
-            ['type' => 'total_customers', 'value' => $totalCustomers],
-            ['type' => 'total_products', 'value' => $totalProducts],
-        ];
-
-        foreach ($stats as $stat) {
-            $connection->insert($tableName, [
-                'stat_type' => $stat['type'],
-                'stat_value' => (string)$stat['value'],
-                'additional_data' => $this->serializer->serialize(['source' => 'cron']),
-                'created_at' => (new \DateTime())->format('Y-m-d H:i:s')
-            ]);
+        if ($clearBeforeInsert && !$cleared) {
+            $connection->truncateTable($tableName);
+            $cleared = true;
+            $this->logger->info("[Originalapp_Reports] Stats table cleared before insert");
         }
 
-        return $this;
+        $statModel = $this->statFactory->create();
+        $statModel->setData([
+            'stat_type'       => $type,
+            'stat_value'      => $value,
+            'additional_data' => $meta,
+            'created_at'      => $createdAt
+        ]);
+
+        $statModel->save();
     }
 }

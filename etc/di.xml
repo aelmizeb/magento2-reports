@@ -53,4 +53,13 @@
             <argument name="resourceModel" xsi:type="string">Originalapp\Reports\Model\ResourceModel\Product</argument>
         </arguments>
     </virtualType>
+
+    <!-- command list -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="originalapp-reports:stats" xsi:type="object">Originalapp\Reports\Console\Command\StatCommand</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
