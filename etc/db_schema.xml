@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="originalapp_reports_stats" resource="default" engine="innodb" comment="Marketing Stats Storage">
+        <column xsi:type="int" name="stat_id" nullable="false" identity="true" unsigned="true" comment="Stat ID" />
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At" />
+        <column xsi:type="varchar" name="stat_type" nullable="false" length="255" comment="Stat Type" />
+        <column xsi:type="text" name="stat_value" nullable="false" comment="Stat Value" />
+        <column xsi:type="text" name="additional_data" nullable="true" comment="Additional JSON Data" />
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="stat_id"/>
+        </constraint>
+    </table>
+</schema>
