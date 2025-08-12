@@ -18,7 +18,12 @@ class Config extends AbstractHelper
     private const XML_PATH_ENABLE_SALES_BY_CATEGORY_WIDGET = 'originalapp_reports/dashboard/enable_sales_by_category_widget';
     private const XML_PATH_ENABLE_SALES_BY_COUNTRY_WIDGET = 'originalapp_reports/dashboard/enable_sales_by_country_widget';
     private const XML_PATH_ENABLE_MONTHLY_SALES_GROWTH_WIDGET = 'originalapp_reports/dashboard/enable_monthly_sales_growth_widget';
-    private const XML_PATH_SALES_ORDER_STATUSES = 'originalapp_reports/dashboard/sales_order_statuses';
+    private const XML_PATH_SALES_ORDER_STATUSES = 'originalapp_reports/sales_growth/order_statuses';
+
+    private const XML_PATH_CRON_ENABLED = 'originalapp_reports/cron_settings/cron_enabled';
+    private const XML_PATH_CRON_FREQUENCY = 'originalapp_reports/cron_settings/frequency';
+    private const XML_PATH_CRON_TIME = 'originalapp_reports/cron_settings/time';
+    private const XML_PATH_CRON_PRESERVE_HISTORY = 'originalapp_reports/cron_settings/preserve_history';
 
     public function isCustomerByCountryWidgetEnabled(?int $storeId = null): bool
     {
@@ -74,5 +79,46 @@ class Config extends AbstractHelper
         );
         return $statuses ? array_map('trim', explode(',', $statuses)) : [];
     }
-}
 
+    public function isCronEnabled(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_CRON_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    public function getCronFrequency(?int $storeId = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::XML_PATH_CRON_FREQUENCY,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Returns the configured cron start time string (HH:mm:ss)
+     */
+    public function getCronTime(?int $storeId = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::XML_PATH_CRON_TIME,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Returns true if the cron job should preserve stats history (not truncate table)
+     */
+    public function isPreserveStatsHistory(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_CRON_PRESERVE_HISTORY,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+}

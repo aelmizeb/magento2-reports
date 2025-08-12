@@ -11,6 +11,7 @@ namespace Originalapp\Reports\Cron;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Serialize\Serializer\Json;
 use Originalapp\Reports\Model\StatFactory;
+use Originalapp\Reports\Helper\Config as ConfigHelper;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -22,17 +23,20 @@ class Stats
     protected $serializer;
     protected $statFactory;
     protected $logger;
+    protected $configHelper;
 
     public function __construct(
         ResourceConnection $resource,
         Json $serializer,
         StatFactory $statFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ConfigHelper $configHelper
     ) {
         $this->resource = $resource;
         $this->serializer = $serializer;
         $this->statFactory = $statFactory;
         $this->logger = $logger;
+        $this->configHelper = $configHelper;
     }
 
     public function execute()
@@ -43,6 +47,8 @@ class Stats
                 'source' => 'cron',
             ]);
 
+            $preserveHistory = $this->configHelper->isPreserveStatsHistory();
+
             // Gather stats
             $stats = array_merge(
                 $this->getGeneralStats(),
@@ -51,13 +57,13 @@ class Stats
 
             // Save stats
             foreach ($stats as $stat) {
-                // Note: The 'true' flag clears the stats table before inserting new records
-                // This is to ensure we only keep the latest stats
-                // If you want to keep historical data, set this to false
-                // $this->saveStat($stat['type'], (string)$stat['value'], $meta, $now, false);
-                // @todo: add config option to control this behavior
-                // For now, we clear the table before inserting new stats
-                $this->saveStat($stat['type'], (string) $stat['value'], $meta, $now, true);
+                $this->saveStat(
+                    $stat['type'], 
+                    (string) $stat['value'], 
+                    $meta, 
+                    $now, 
+                    !$preserveHistory // clearBeforeInsert = true if NOT preserving history
+                );
             }
 
             $this->logger->info('[Originalapp_Reports] Stats cron completed', [
