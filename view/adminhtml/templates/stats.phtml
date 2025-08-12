@@ -1,0 +1,30 @@
+<?php /** @var $block \Originalapp\Reports\Block\Adminhtml\Stats */ ?>
+<div class="admin__table-wrapper">
+    <table class="data-grid">
+        <thead>
+            <tr>
+                <th><?= __('Type') ?></th>
+                <th><?= __('Value') ?></th>
+                <th><?= __('Created At') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $stats = $block->getStats(); ?>
+            <?php if (!empty($stats)): ?>
+                <?php foreach ($stats as $stat): ?>
+                    <tr>
+                        <td><?= $stat['stat_type'] ?></td>
+                        <td><?= $stat['stat_value'] ?></td>
+                        <td><?= $stat['created_at'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3" style="text-align:center; font-style:italic;">
+                        <?= __('No statistics available.') ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>

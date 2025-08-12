@@ -18,7 +18,7 @@ class Category extends Action
      *
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Originalapp_Reports::oappreports';
+    const ADMIN_RESOURCE = 'Originalapp_Reports::main';
 
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -54,7 +54,7 @@ class Category extends Action
     }
 
     /**
-     * Invoices grid
+     * Grid
      *
      * @return \Magento\Backend\Model\View\Result\Page
      */
@@ -71,6 +71,6 @@ class Category extends Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Originalapp_Reports::main');
+        return $this->_authorization->isAllowed(self::ADMIN_RESOURCE);
     }
 }

@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace Originalapp\Reports\Controller\Adminhtml\Sales;
+namespace Originalapp\Reports\Controller\Adminhtml\Stats;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\View\Result\PageFactory;
 
-class Product extends Action
+class Index extends Action
 {
     /**
      * Authorization level of a basic admin session
@@ -47,21 +47,21 @@ class Product extends Action
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Originalapp_Reports::oappreports')
-            ->addBreadcrumb(__('Sales'), __('Sales'))
-            ->addBreadcrumb(__('Sales By Product'), __('Sales By Product'));
+            ->addBreadcrumb(__('Stats'), __('Stats'))
+            ->addBreadcrumb(__('Saved Statistics'), __('Saved Statistics'));
 
         return $resultPage;
     }
 
     /**
-     * Grid
+     * Stats page
      *
      * @return \Magento\Backend\Model\View\Result\Page
      */
     public function execute()
     {
         $resultPage = $this->_initAction();
-        $resultPage->getConfig()->getTitle()->prepend(__('Sales By Product'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Saved Statistics'));
 
         return $resultPage;
     }

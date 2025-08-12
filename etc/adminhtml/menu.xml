@@ -14,7 +14,10 @@
           action="oappreports/sales/product" sortOrder="30" title="Sales By Product" dependsOnModule="Originalapp_Reports"
           translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
         <add id="Originalapp_Reports::oappreport_sales_category" 
-          action="oappreports/sales/category" sortOrder="30" title="Sales By Category" dependsOnModule="Originalapp_Reports"
+          action="oappreports/sales/category" sortOrder="40" title="Sales By Category" dependsOnModule="Originalapp_Reports"
+          translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
+        <add id="Originalapp_Reports::oappreport_stasts_index" 
+          action="oappreports/stats/index" sortOrder="50" title="Saved Stats" dependsOnModule="Originalapp_Reports"
           translate="title" module="Originalapp_Reports" resource="Magento_Backend::content" parent="Originalapp_Reports::oappreports"/>
     </menu>
 </config>
