@@ -9,7 +9,7 @@
       "email": "aelmizeb@gmail.com"
     }
   ],
-  "version": "0.0.2",
+  "version": "1.0.0",
   "require": {
     "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
     "magento/framework": "103.0.*",
