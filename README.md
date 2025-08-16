@@ -5,9 +5,15 @@
 [![Magento](https://img.shields.io/badge/Magento-2.4.x-orange)]()
 [![License](https://img.shields.io/github/license/aelmizeb/magento2-reports)](LICENSE)
 
+---
+
+![Mage-OS Compatible](./docs/images/Mage-OS-Compatible.png)
+
+---
+
 ## 🔎 Preview
-![Dashboard Preview](./view/adminhtml/web/images/preview-dashboard.png)
-![Config Preview](./view/adminhtml/web/images/preview-config.png)
+![Dashboard Preview](./docs/images/preview-dashboard.png)
+![Config Preview](./docs/images/preview-config.png)
 
 ## ✨ Description
 
@@ -42,7 +48,8 @@ php bin/magento cache:flush
 ```
 
 ## 🧩 Compatibility
-Magento Open Source 2.4.x+
+Magento Open Source 2.4.x+ 
+Mage OS 1.3.x+ 
 
 PHP 8.1+
 
